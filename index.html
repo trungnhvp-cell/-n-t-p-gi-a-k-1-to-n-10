@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#6366f1">
+<title>Ôn tập giữa HK1 – Toán 10 (Kết nối tri thức)</title>
+<style>
+/* =========================================================
+   RESET & BIẾN MÀU
+   ========================================================= */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --indigo:#6366f1;
+  --indigo-dark:#4338ca;
+  --pink:#ec4899;
+  --pink-dark:#be185d;
+  --cyan:#06b6d4;
+  --cyan-dark:#0891b2;
+  --emerald:#10b981;
+  --emerald-dark:#059669;
+  --amber:#f59e0b;
+  --amber-dark:#d97706;
+  --rose:#f43f5e;
+  --rose-dark:#be123c;
+  --violet:#8b5cf6;
+
+  --bg-1:#0f172a;
+  --bg-2:#1e1b4b;
+  --bg-3:#312e81;
+  --surface:rgba(255,255,255,.08);
+  --surface-strong:rgba(255,255,255,.14);
+  --surface-solid:#ffffff;
+  --text:#f8fafc;
+  --text-muted:#cbd5e1;
+  --text-dark:#0f172a;
+  --text-dark-muted:#475569;
+  --border-glass:rgba(255,255,255,.18);
+
+  --radius:22px;
+  --radius-sm:14px;
+  --shadow:0 12px 34px rgba(0,0,0,.28);
+  --shadow-lg:0 24px 60px rgba(0,0,0,.42);
+  --shadow-glow:0 0 34px rgba(99,102,241,.55);
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Segoe UI',Roboto,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 40%,#312e81 70%,#0f172a 100%);
+  background-attachment:fixed;
+  color:var(--text);
+  line-height:1.55;
+  padding:14px 12px 40px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  position:relative;
+  min-height:100vh;
+}
+/* Nền gradient động */
+body::before{
+  content:"";position:fixed;inset:0;
+  background:
+    radial-gradient(circle at 12% 18%,rgba(236,72,153,.34),transparent 45%),
+    radial-gradient(circle at 88% 12%,rgba(6,182,212,.32),transparent 45%),
+    radial-gradient(circle at 50% 92%,rgba(139,92,246,.32),transparent 50%),
+    radial-gradient(circle at 75% 65%,rgba(16,185,129,.22),transparent 45%);
+  z-index:-2;
+  animation:bgShift 22s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes bgShift{
+  0%,100%{transform:scale(1) rotate(0deg);opacity:1;}
+  50%{transform:scale(1.15) rotate(4deg);opacity:.85;}
+}
+/* Orb bay */
+.orb{
+  position:fixed;border-radius:50%;filter:blur(50px);
+  z-index:-1;opacity:.5;pointer-events:none;
+  animation:float 14s ease-in-out infinite;
+}
+.orb.o1{width:280px;height:280px;background:linear-gradient(135deg,#ec4899,#8b5cf6);top:6%;left:-8%;}
+.orb.o2{width:220px;height:220px;background:linear-gradient(135deg,#06b6d4,#6366f1);top:55%;right:-6%;animation-delay:-5s;}
+.orb.o3{width:180px;height:180px;background:linear-gradient(135deg,#10b981,#06b6d4);bottom:6%;left:20%;animation-delay:-9s;}
+@keyframes float{
+  0%,100%{transform:translate(0,0) scale(1);}
+  33%{transform:translate(40px,-30px) scale(1.12);}
+  66%{transform:translate(-30px,25px) scale(.92);}
+}
+.container{max-width:1180px;margin:0 auto;position:relative;z-index:1;}
+
+/* =========================================================
+   MÀN HÌNH GHI DANH
+   ========================================================= */
+.register-overlay{
+  position:fixed;inset:0;
+  background:linear-gradient(135deg,rgba(15,23,42,.94),rgba(30,27,75,.96),rgba(49,46,129,.94));
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  padding:18px;
+  opacity:1;transition:opacity .5s ease,visibility .5s;
+  overflow-y:auto;
+}
+.register-overlay::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 25% 30%,rgba(236,72,153,.35),transparent 45%),
+    radial-gradient(circle at 75% 70%,rgba(6,182,212,.32),transparent 45%),
+    radial-gradient(circle at 60% 20%,rgba(139,92,246,.3),transparent 40%);
+  animation:bgShift 18s ease-in-out infinite;
+  pointer-events:none;
+}
+.register-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.register-card{
+  background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.06));
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1.5px solid var(--border-glass);
+  border-radius:28px;
+  padding:36px 28px 30px;
+  max-width:500px;width:100%;
+  box-shadow:var(--shadow-lg),0 0 60px rgba(99,102,241,.32) inset;
+  position:relative;
+  animation:popIn .6s cubic-bezier(.18,.89,.32,1.28);
+  margin:auto;
+  color:var(--text);
+}
+@keyframes popIn{
+  from{opacity:0;transform:scale(.88) translateY(24px);}
+  to{opacity:1;transform:scale(1) translateY(0);}
+}
+.register-card::before{
+  content:"";position:absolute;top:-2px;left:20%;right:20%;height:3px;
+  background:linear-gradient(90deg,transparent,#ec4899,#8b5cf6,#06b6d4,transparent);
+  border-radius:3px;animation:shimmer 3s ease-in-out infinite;
+}
+@keyframes shimmer{
+  0%,100%{opacity:.6;transform:scaleX(.85);}
+  50%{opacity:1;transform:scaleX(1);}
+}
+.register-card .logo{
+  width:80px;height:80px;
+  margin:0 auto 16px;
+  background:linear-gradient(135deg,#ec4899,#8b5cf6,#06b6d4);
+  border-radius:26px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.4rem;color:#fff;
+  box-shadow:0 12px 30px rgba(139,92,246,.55),0 0 0 6px rgba(255,255,255,.08);
+  animation:logoPulse 3s ease-in-out infinite;
+  transform:rotate(-4deg);
+}
+@keyframes logoPulse{
+  0%,100%{transform:rotate(-4deg) scale(1);box-shadow:0 12px 30px rgba(139,92,246,.55),0 0 0 6px rgba(255,255,255,.08);}
+  50%{transform:rotate(4deg) scale(1.06);box-shadow:0 16px 40px rgba(236,72,153,.6),0 0 0 10px rgba(255,255,255,.12);}
+}
+.register-card h2{
+  text-align:center;color:#fff;
+  font-size:clamp(1.15rem,4.5vw,1.45rem);
+  font-weight:800;margin-bottom:8px;line-height:1.3;
+  background:linear-gradient(135deg,#fff,#c7d2fe,#f0abfc);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  letter-spacing:-.3px;
+}
+.register-card .sub{
+  text-align:center;color:var(--text-muted);
+  font-size:.9rem;margin-bottom:20px;line-height:1.5;
+}
+.register-card .teacher-tag{
+  text-align:center;color:#fff;
+  font-weight:700;font-size:.85rem;
+  background:linear-gradient(135deg,rgba(236,72,153,.35),rgba(139,92,246,.35));
+  padding:9px 16px;border-radius:30px;
+  display:inline-block;width:100%;max-width:360px;
+  border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(8px);
+  margin-bottom:22px;
+  box-shadow:0 6px 20px rgba(139,92,246,.28);
+}
+.register-card .center{text-align:center;}
+
+.field{margin-bottom:16px;}
+.field label{
+  display:flex;align-items:center;gap:6px;
+  font-weight:700;color:#e0e7ff;
+  font-size:.88rem;margin-bottom:8px;
+  text-shadow:0 1px 3px rgba(0,0,0,.3);
+}
+.field input,.field select{
+  width:100%;padding:14px 18px;
+  border:2px solid rgba(255,255,255,.2);
+  border-radius:40px;
+  font-size:1rem;font-family:inherit;
+  transition:all .25s;
+  background:rgba(255,255,255,.1);
+  color:#fff;
+  min-height:52px;
+  -webkit-appearance:none;appearance:none;
+  backdrop-filter:blur(8px);
+}
+.field input::placeholder{color:rgba(255,255,255,.5);}
+.field select{
+  background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e0e7ff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat:no-repeat;background-position:right 16px center;background-size:18px;
+  padding-right:44px;cursor:pointer;
+}
+.field select option{background:#1e1b4b;color:#fff;}
+.field input:focus,.field select:focus{
+  outline:none;border-color:#f0abfc;
+  background:rgba(255,255,255,.18);
+  box-shadow:0 0 0 4px rgba(236,72,153,.28),0 0 24px rgba(236,72,153,.4);
+}
+.field input.error,.field select.error{
+  border-color:var(--rose);
+  box-shadow:0 0 0 4px rgba(244,63,94,.28);
+  animation:shake .4s;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  25%{transform:translateX(-7px);}
+  75%{transform:translateX(7px);}
+}
+.error-msg{
+  color:#fda4af;font-size:.82rem;margin-top:6px;
+  padding-left:16px;font-weight:600;display:none;
+  text-shadow:0 1px 3px rgba(0,0,0,.4);
+}
+.error-msg.show{display:block;animation:fadeIn .3s;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+
+.btn-enter{
+  width:100%;padding:16px 24px;
+  background:linear-gradient(135deg,#ec4899 0%,#8b5cf6 50%,#06b6d4 100%);
+  background-size:200% 200%;
+  color:#fff;border:none;border-radius:40px;
+  font-weight:800;font-size:1.02rem;
+  font-family:inherit;cursor:pointer;
+  margin-top:8px;min-height:54px;
+  transition:all .3s;
+  box-shadow:0 10px 30px rgba(139,92,246,.55),0 0 40px rgba(236,72,153,.35);
+  letter-spacing:.4px;
+  position:relative;overflow:hidden;
+  animation:gradientMove 4s ease-in-out infinite;
+}
+@keyframes gradientMove{
+  0%,100%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+}
+.btn-enter::after{
+  content:"";position:absolute;top:0;left:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+  transition:left .6s;
+}
+.btn-enter:hover::after,.btn-enter:active::after{left:100%;}
+.btn-enter:hover,.btn-enter:active{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 16px 42px rgba(139,92,246,.7),0 0 55px rgba(236,72,153,.55);
+}
+.btn-enter:active{transform:scale(.98);}
+.register-footer{
+  text-align:center;margin-top:18px;
+  font-size:.78rem;color:var(--text-muted);
+  line-height:1.6;
+}
+.register-footer strong{color:#f0abfc;}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+header{
+  background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1.5px solid var(--border-glass);
+  color:#fff;
+  padding:28px 22px 24px;
+  border-radius:26px;
+  box-shadow:var(--shadow-lg),0 0 60px rgba(99,102,241,.28);
+  margin-bottom:22px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+header::before{
+  content:"";position:absolute;top:-2px;left:15%;right:15%;height:3px;
+  background:linear-gradient(90deg,transparent,#ec4899,#8b5cf6,#06b6d4,#10b981,transparent);
+  border-radius:3px;animation:shimmer 4s ease-in-out infinite;
+}
+header::after{
+  content:"";position:absolute;inset:auto -40px -60px auto;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(236,72,153,.3),transparent 70%);
+  border-radius:50%;pointer-events:none;
+}
+header h1{
+  font-size:clamp(1.28rem,5vw,2.05rem);
+  line-height:1.22;font-weight:800;
+  letter-spacing:-.5px;margin-bottom:8px;
+  background:linear-gradient(135deg,#fff,#f0abfc,#a5f3fc);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  position:relative;z-index:1;
+}
+header .subtitle{
+  font-size:clamp(.86rem,2.6vw,1.02rem);
+  color:var(--text-muted);margin-bottom:16px;
+  position:relative;z-index:1;
+}
+
+.student-badge{
+  display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;
+  gap:8px 14px;
+  background:linear-gradient(135deg,rgba(236,72,153,.25),rgba(139,92,246,.25));
+  border:1.5px solid rgba(240,171,252,.4);
+  padding:9px 8px 9px 18px;border-radius:40px;
+  font-weight:600;font-size:clamp(.78rem,2.3vw,.95rem);
+  backdrop-filter:blur(8px);
+  position:relative;z-index:1;margin-bottom:12px;
+  box-shadow:0 6px 20px rgba(139,92,246,.28);
+}
+.student-badge .name-txt{
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+}
+.student-badge .edit-info{
+  background:linear-gradient(135deg,#ec4899,#8b5cf6);
+  border:none;color:#fff;font-size:.75rem;font-weight:700;
+  padding:6px 14px;border-radius:30px;
+  cursor:pointer;transition:all .25s;font-family:inherit;
+  white-space:nowrap;
+  box-shadow:0 4px 12px rgba(236,72,153,.4);
+}
+.student-badge .edit-info:hover{
+  transform:translateY(-1px) scale(1.05);
+  box-shadow:0 6px 16px rgba(236,72,153,.6);
+}
+
+.teacher-info{
+  display:inline-flex;flex-wrap:wrap;justify-content:center;gap:6px 12px;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.15);
+  padding:8px 20px;border-radius:40px;
+  font-weight:600;font-size:clamp(.75rem,2.2vw,.9rem);
+  backdrop-filter:blur(8px);
+  position:relative;z-index:1;
+  color:var(--text-muted);
+}
+.teacher-info span{white-space:nowrap;}
+
+/* =========================================================
+   NAV NHANH
+   ========================================================= */
+.quick-nav{
+  position:sticky;top:8px;z-index:50;
+  display:flex;gap:8px;overflow-x:auto;
+  padding:10px 4px;margin-bottom:20px;
+  background:rgba(15,23,42,.6);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-radius:40px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 6px 20px rgba(0,0,0,.28);
+}
+.quick-nav::-webkit-scrollbar{display:none;}
+.quick-nav a{
+  flex:0 0 auto;text-decoration:none;
+  color:#e0e7ff;background:rgba(255,255,255,.08);
+  padding:9px 18px;border-radius:30px;
+  font-weight:600;font-size:.85rem;
+  border:1.5px solid rgba(255,255,255,.1);
+  transition:all .25s;
+  white-space:nowrap;
+}
+.quick-nav a:hover,.quick-nav a:active{
+  background:linear-gradient(135deg,#ec4899,#8b5cf6);
+  color:#fff;border-color:transparent;
+  transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(236,72,153,.45);
+}
+
+/* =========================================================
+   SECTION TITLE
+   ========================================================= */
+.section-title{
+  font-size:clamp(1.05rem,3.5vw,1.55rem);
+  font-weight:800;
+  margin:36px 0 18px;
+  padding-bottom:12px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  color:#fff;
+  position:relative;
+  border-bottom:2px solid transparent;
+  border-image:linear-gradient(90deg,#ec4899,#8b5cf6,#06b6d4,transparent) 1;
+}
+.section-title .chapter-badge{
+  background:linear-gradient(135deg,#ec4899,#8b5cf6);
+  color:#fff;font-size:.72rem;
+  padding:5px 14px;border-radius:30px;
+  font-weight:700;letter-spacing:.4px;
+  box-shadow:0 4px 14px rgba(236,72,153,.42);
+}
+
+/* =========================================================
+   CARD GRID
+   ========================================================= */
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:16px;
+}
+@media (max-width:560px){
+  .card-grid{grid-template-columns:1fr;gap:12px;}
+}
+.card{
+  background:linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,.04));
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1.5px solid var(--border-glass);
+  border-radius:var(--radius);
+  padding:22px 20px;
+  box-shadow:var(--shadow);
+  transition:all .35s cubic-bezier(.18,.89,.32,1.28);
+  display:flex;flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,#ec4899,#8b5cf6,#06b6d4);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s ease;
+}
+.card:hover::before,.card:active::before{transform:scaleX(1);}
+.card::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 0%,rgba(236,72,153,.2),transparent 60%);
+  opacity:0;transition:opacity .4s;
+  pointer-events:none;
+}
+.card:hover::after,.card:active::after{opacity:1;}
+.card:hover,.card:active{
+  transform:translateY(-6px) scale(1.015);
+  border-color:rgba(240,171,252,.5);
+  box-shadow:var(--shadow-lg),0 0 40px rgba(139,92,246,.35);
+}
+.card h3{
+  font-size:1.04rem;color:#fff;
+  margin-bottom:8px;line-height:1.35;
+  position:relative;z-index:1;
+  font-weight:700;
+}
+.card p{
+  font-size:.9rem;color:var(--text-muted);
+  margin-bottom:16px;flex:1;
+  position:relative;z-index:1;
+  line-height:1.55;
+}
+.card a{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  background:linear-gradient(135deg,#06b6d4,#6366f1);
+  color:#fff;text-decoration:none;
+  padding:11px 22px;border-radius:40px;
+  font-weight:700;font-size:.88rem;
+  transition:all .25s;
+  align-self:flex-start;
+  min-height:44px;
+  position:relative;z-index:1;
+  box-shadow:0 6px 18px rgba(6,182,212,.38);
+  overflow:hidden;
+}
+.card a::before{
+  content:"";position:absolute;top:0;left:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+  transition:left .5s;
+}
+.card a:hover::before,.card a:active::before{left:100%;}
+.card a:hover,.card a:active{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 10px 26px rgba(6,182,212,.6);
+}
+
+/* =========================================================
+   EXAM TABS
+   ========================================================= */
+.exam-tabs{
+  display:flex;gap:10px;margin-bottom:20px;
+  overflow-x:auto;padding:4px 2px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.exam-tabs::-webkit-scrollbar{display:none;}
+.exam-tab{
+  flex:1 0 auto;
+  background:linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,.05));
+  backdrop-filter:blur(12px);
+  color:#e0e7ff;
+  padding:14px 26px;border-radius:50px;
+  font-weight:700;font-size:.95rem;
+  cursor:pointer;
+  border:1.5px solid var(--border-glass);
+  transition:all .3s;
+  min-height:50px;font-family:inherit;
+  position:relative;overflow:hidden;
+  white-space:nowrap;
+}
+.exam-tab::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,#ec4899,#8b5cf6,#06b6d4);
+  opacity:0;transition:opacity .3s;
+  z-index:-1;
+}
+.exam-tab:hover{
+  transform:translateY(-2px);
+  border-color:rgba(240,171,252,.5);
+}
+.exam-tab.active{
+  background:linear-gradient(135deg,#ec4899,#8b5cf6,#06b6d4);
+  color:#fff;border-color:transparent;
+  box-shadow:0 10px 28px rgba(139,92,246,.6);
+  transform:translateY(-2px) scale(1.02);
+}
+
+/* =========================================================
+   EXAM PANEL
+   ========================================================= */
+.exam-panel{
+  display:none;
+  background:linear-gradient(160deg,rgba(255,255,255,.11),rgba(255,255,255,.04));
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1.5px solid var(--border-glass);
+  border-radius:var(--radius);
+  padding:24px 20px;
+  box-shadow:var(--shadow-lg);
+  animation:panelIn .4s ease;
+}
+@keyframes panelIn{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.exam-panel.active{display:block;}
+@media (max-width:560px){
+  .exam-panel{padding:16px 12px;border-radius:18px;}
+}
+
+/* =========================================================
+   TIMER BAR
+   ========================================================= */
+.timer-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  background:linear-gradient(135deg,rgba(236,72,153,.18),rgba(6,182,212,.18));
+  border:1.5px solid rgba(255,255,255,.18);
+  padding:14px 20px;border-radius:60px;
+  margin-bottom:22px;gap:10px;flex-wrap:wrap;
+  backdrop-filter:blur(10px);
+  box-shadow:0 6px 20px rgba(0,0,0,.28);
+}
+.timer-bar > div:first-child{
+  font-size:.9rem;color:#e0e7ff;font-weight:600;
+}
+.timer{
+  font-size:clamp(1.25rem,4.5vw,1.75rem);
+  font-weight:800;
+  background:linear-gradient(135deg,#f0abfc,#a5f3fc);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-variant-numeric:tabular-nums;letter-spacing:2px;
+}
+.timer.warning{
+  background:linear-gradient(135deg,#fda4af,#fb923c);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:pulse 1s infinite;
+}
+@keyframes pulse{50%{opacity:.5;}}
+.timer-bar .btn-group{display:flex;gap:8px;margin-left:auto;}
+@media (max-width:560px){
+  .timer-bar{flex-direction:column;text-align:center;padding:12px;}
+  .timer-bar .btn-group{margin-left:0;width:100%;justify-content:center;}
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+.btn{
+  padding:12px 26px;border:none;border-radius:40px;
+  font-weight:700;font-size:.92rem;cursor:pointer;
+  transition:all .25s;min-height:46px;
+  font-family:inherit;white-space:nowrap;
+  position:relative;overflow:hidden;
+}
+.btn::after{
+  content:"";position:absolute;top:50%;left:50%;
+  width:5px;height:5px;background:rgba(255,255,255,.5);
+  border-radius:50%;transform:translate(-50%,-50%) scale(0);
+  transition:transform .5s,opacity .5s;opacity:0;
+}
+.btn:active::after{
+  transform:translate(-50%,-50%) scale(30);
+  opacity:1;transition:0s;
+}
+.btn:active{transform:scale(.97);}
+.btn-primary{
+  background:linear-gradient(135deg,#06b6d4,#6366f1);
+  color:#fff;
+  box-shadow:0 8px 22px rgba(6,182,212,.42);
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(6,182,212,.6);
+}
+.btn-success{
+  background:linear-gradient(135deg,#10b981,#059669);
+  color:#fff;
+  box-shadow:0 8px 22px rgba(16,185,129,.42);
+}
+.btn-success:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(16,185,129,.6);
+}
+.btn-outline{
+  background:transparent;
+  border:2px solid rgba(240,171,252,.6);
+  color:#f0abfc;
+}
+.btn-outline:hover{
+  background:rgba(240,171,252,.12);
+  border-color:#f0abfc;
+  transform:translateY(-2px);
+}
+
+/* =========================================================
+   QUESTION
+   ========================================================= */
+.part-label{
+  font-size:1.05rem;font-weight:800;
+  color:#fff;
+  margin:30px 0 14px;padding:12px 18px;
+  background:linear-gradient(90deg,rgba(236,72,153,.28),rgba(139,92,246,.18),transparent);
+  border-left:5px solid #ec4899;
+  border-radius:0 14px 14px 0;
+  line-height:1.35;
+  position:relative;
+  box-shadow:0 6px 20px rgba(236,72,153,.18);
+}
+.part-label::before{
+  content:"";position:absolute;left:-5px;top:0;bottom:0;width:5px;
+  background:linear-gradient(180deg,#ec4899,#8b5cf6,#06b6d4);
+  border-radius:3px;
+}
+.part-label:first-of-type{margin-top:0;}
+
+.question{
+  background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--radius-sm);
+  padding:18px 16px;margin-bottom:14px;
+  transition:all .35s;
+  position:relative;
+  overflow:hidden;
+}
+.question::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,#8b5cf6,#06b6d4);
+  opacity:0;transition:opacity .3s;
+}
+.question:hover::before{opacity:1;}
+.question .q-text{
+  font-weight:600;margin-bottom:14px;
+  font-size:.96rem;line-height:1.55;
+  color:#fff;position:relative;z-index:1;
+}
+
+/* Đáp án TN */
+.options{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:8px 14px;
+}
+@media (max-width:640px){.options{grid-template-columns:1fr;}}
+.options label{
+  display:flex;align-items:flex-start;gap:10px;
+  cursor:pointer;padding:11px 14px;
+  border-radius:12px;
+  transition:all .25s;
+  font-size:.92rem;line-height:1.4;
+  min-height:46px;
+  border:1.5px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  color:#e0e7ff;
+  position:relative;overflow:hidden;
+}
+.options label::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(236,72,153,.15),rgba(139,92,246,.15));
+  opacity:0;transition:opacity .25s;
+  z-index:0;
+}
+.options label:hover{
+  border-color:rgba(240,171,252,.55);
+  transform:translateX(3px);
+  box-shadow:0 6px 18px rgba(139,92,246,.25);
+}
+.options label:hover::before{opacity:1;}
+.options label > span{position:relative;z-index:1;}
+.options input[type="radio"]{
+  accent-color:#ec4899;
+  width:19px;height:19px;cursor:pointer;
+  flex-shrink:0;margin-top:2px;
+  position:relative;z-index:1;
+}
+
+/* Đúng – Sai */
+.tf-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:12px 0;
+  border-bottom:1px dashed rgba(255,255,255,.12);
+  flex-wrap:wrap;
+}
+.tf-row:last-child{border-bottom:none;}
+.tf-row > span{
+  flex:1 1 100%;font-size:.92rem;
+  line-height:1.5;color:#e0e7ff;
+}
+@media (min-width:600px){
+  .tf-row{flex-wrap:nowrap;align-items:center;}
+  .tf-row > span{flex:1 1 auto;}
+}
+.tf-row label{
+  display:inline-flex;align-items:center;gap:6px;
+  font-weight:700;cursor:pointer;font-size:.86rem;
+  padding:8px 16px;border-radius:30px;
+  background:rgba(255,255,255,.06);
+  border:1.5px solid rgba(255,255,255,.14);
+  transition:all .25s;min-height:40px;
+  color:#e0e7ff;
+}
+.tf-row label:hover{
+  border-color:rgba(16,185,129,.6);
+  background:rgba(16,185,129,.12);
+  transform:translateY(-1px);
+}
+.tf-row label:has(input:checked){
+  background:linear-gradient(135deg,rgba(16,185,129,.28),rgba(6,182,212,.28));
+  border-color:#10b981;color:#fff;
+  box-shadow:0 4px 14px rgba(16,185,129,.4);
+}
+.tf-row input[type="radio"]{
+  accent-color:#10b981;width:16px;height:16px;
+}
+
+/* Trả lời ngắn */
+.short-answer input[type="text"]{
+  width:100%;max-width:420px;
+  padding:13px 18px;
+  border:2px solid rgba(255,255,255,.18);
+  border-radius:40px;
+  font-size:1rem;font-family:inherit;
+  transition:all .25s;min-height:48px;
+  background:rgba(255,255,255,.06);
+  color:#fff;
+}
+.short-answer input[type="text"]::placeholder{color:rgba(255,255,255,.45);}
+.short-answer input[type="text"]:focus{
+  outline:none;
+  border-color:#a5f3fc;
+  background:rgba(255,255,255,.1);
+  box-shadow:0 0 0 4px rgba(6,182,212,.22),0 0 22px rgba(6,182,212,.4);
+}
+
+/* Tự luận */
+.essay-question{
+  background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--radius-sm);
+  padding:18px 16px;margin-bottom:14px;
+}
+.essay-question .q-text{
+  font-weight:600;margin-bottom:12px;
+  font-size:.96rem;line-height:1.55;color:#fff;
+}
+.essay-question textarea{
+  width:100%;padding:14px;
+  border:2px solid rgba(255,255,255,.18);
+  border-radius:14px;
+  font-size:.95rem;font-family:inherit;
+  resize:vertical;min-height:110px;
+  background:rgba(255,255,255,.06);
+  color:#fff;transition:all .25s;
+}
+.essay-question textarea::placeholder{color:rgba(255,255,255,.45);}
+.essay-question textarea:focus{
+  outline:none;
+  border-color:#a5f3fc;
+  background:rgba(255,255,255,.1);
+  box-shadow:0 0 0 4px rgba(6,182,212,.22);
+}
+
+/* =========================================================
+   KẾT QUẢ
+   ========================================================= */
+.result-banner{
+  display:none;padding:20px 22px;
+  border-radius:var(--radius);margin-top:24px;
+  font-weight:600;font-size:1rem;
+  line-height:1.65;
+  backdrop-filter:blur(12px);
+  border:1.5px solid transparent;
+}
+.result-banner.show{display:block;animation:slideIn .45s ease;}
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(14px) scale(.97);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+.result-banner.good{
+  background:linear-gradient(135deg,rgba(16,185,129,.28),rgba(6,182,212,.22));
+  color:#d1fae5;border-color:rgba(16,185,129,.55);
+  box-shadow:0 12px 34px rgba(16,185,129,.35);
+}
+.result-banner.average{
+  background:linear-gradient(135deg,rgba(245,158,11,.28),rgba(251,146,60,.22));
+  color:#fef3c7;border-color:rgba(245,158,11,.55);
+  box-shadow:0 12px 34px rgba(245,158,11,.35);
+}
+.result-banner.poor{
+  background:linear-gradient(135deg,rgba(244,63,94,.28),rgba(190,18,60,.22));
+  color:#ffe4e6;border-color:rgba(244,63,94,.55);
+  box-shadow:0 12px 34px rgba(244,63,94,.35);
+}
+.result-banner .student-line{
+  display:block;margin-bottom:10px;
+  padding-bottom:10px;
+  border-bottom:1px dashed rgba(255,255,255,.22);
+  font-size:.96rem;
+}
+
+.correct-highlight{
+  background:linear-gradient(135deg,rgba(16,185,129,.22),rgba(6,182,212,.12)) !important;
+  border-color:rgba(16,185,129,.6) !important;
+  box-shadow:0 0 24px rgba(16,185,129,.28);
+}
+.wrong-highlight{
+  background:linear-gradient(135deg,rgba(244,63,94,.22),rgba(190,18,60,.12)) !important;
+  border-color:rgba(244,63,94,.6) !important;
+  box-shadow:0 0 24px rgba(244,63,94,.28);
+  animation:wrongShake .4s;
+}
+@keyframes wrongShake{
+  0%,100%{transform:translateX(0);}
+  25%{transform:translateX(-4px);}
+  75%{transform:translateX(4px);}
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+footer{
+  text-align:center;margin-top:44px;
+  padding:26px 18px;color:var(--text-muted);
+  font-size:.86rem;line-height:1.75;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+footer strong{
+  background:linear-gradient(135deg,#f0abfc,#a5f3fc);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-weight:800;
+}
+
+/* =========================================================
+   NÚT VỀ ĐẦU TRANG
+   ========================================================= */
+.back-top{
+  position:fixed;right:16px;bottom:16px;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#ec4899,#8b5cf6);
+  color:#fff;border:none;font-size:1.35rem;
+  cursor:pointer;
+  box-shadow:0 8px 26px rgba(236,72,153,.6);
+  display:none;align-items:center;justify-content:center;
+  z-index:99;transition:all .3s;
+}
+.back-top.show{display:flex;animation:popIn .4s;}
+.back-top:hover{transform:translateY(-3px) scale(1.08);}
+.back-top:active{transform:scale(.92);}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+.toast{
+  position:fixed;left:50%;bottom:26px;
+  transform:translateX(-50%) translateY(140%);
+  background:linear-gradient(135deg,#10b981,#06b6d4);
+  color:#fff;padding:14px 26px;
+  border-radius:40px;font-weight:700;font-size:.92rem;
+  box-shadow:0 14px 36px rgba(16,185,129,.55);
+  z-index:10000;
+  transition:transform .45s cubic-bezier(.18,.89,.32,1.28);
+  max-width:90vw;text-align:center;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* =========================================================
+   CONFETTI
+   ========================================================= */
+.confetti-piece{
+  position:fixed;width:10px;height:14px;
+  top:-20px;z-index:10001;
+  pointer-events:none;
+  animation:fall 3s linear forwards;
+}
+@keyframes fall{
+  to{
+    transform:translateY(105vh) rotate(720deg);
+    opacity:0;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ORB TRANG TRÍ -->
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+
+<!-- ============================================================
+     MÀN HÌNH GHI DANH
+     ============================================================ -->
+<div class="register-overlay" id="registerOverlay">
+  <div class="register-card">
+    <div class="logo">📘</div>
+    <h2>CHÀO MỪNG EM ĐẾN VỚI<br>ÔN TẬP GIỮA HỌC KỲ 1</h2>
+    <p class="sub">Môn Toán 10 – Kết nối tri thức với cuộc sống<br>Chương 1 – 2 – 3</p>
+    <div class="center">
+      <div class="teacher-tag">👨‍🏫 Thầy Nguyễn Hữu Trung • THPT Trần Phú</div>
+    </div>
+
+    <div class="field">
+      <label>👤 Họ và tên học sinh <span style="color:#fda4af">*</span></label>
+      <input type="text" id="inputName" placeholder="Ví dụ: Nguyễn Văn An" autocomplete="name" maxlength="50">
+      <div class="error-msg" id="errName">Vui lòng nhập họ và tên (ít nhất 2 ký tự).</div>
+    </div>
+
+    <div class="field">
+      <label>🏫 Lớp học <span style="color:#fda4af">*</span></label>
+      <select id="inputClass">
+        <option value="">-- Chọn lớp --</option>
+        <option value="10A1">10A1</option>
+        <option value="10A2">10A2</option>
+        <option value="10A3">10A3</option>
+        <option value="10A4">10A4</option>
+        <option value="10A5">10A5</option>
+        <option value="10A6">10A6</option>
+        <option value="10A7">10A7</option>
+        <option value="10A8">10A8</option>
+        <option value="10A9">10A9</option>
+        <option value="10A10">10A10</option>
+        <option value="10B1">10B1</option>
+        <option value="10B2">10B2</option>
+        <option value="10B3">10B3</option>
+        <option value="10B4">10B4</option>
+        <option value="10B5">10B5</option>
+        <option value="Khác">Lớp khác</option>
+      </select>
+      <div class="error-msg" id="errClass">Vui lòng chọn lớp học.</div>
+    </div>
+
+    <button class="btn-enter" id="btnEnter">🚀 VÀO ÔN TẬP NGAY</button>
+
+    <div class="register-footer">
+      Thông tin chỉ lưu trên thiết bị của em, dùng để hiển thị trên phiếu kết quả.<br>
+      <strong>Hotline: 0964848989</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     NỘI DUNG CHÍNH
+     ============================================================ -->
+<div class="container" id="mainContent">
+
+  <header>
+    <h1>📘 ÔN TẬP GIỮA HỌC KỲ 1 – TOÁN 10</h1>
+    <div class="subtitle">Kết nối tri thức với cuộc sống • Chương 1 – 2 – 3</div>
+
+    <div class="student-badge" id="studentBadge">
+      <span class="name-txt" id="studentNameTxt">👤 Học sinh</span>
+      <button class="edit-info" id="btnEditInfo" title="Đổi thông tin">✏️ Đổi</button>
+    </div>
+
+    <div class="teacher-info">
+      <span>👨‍🏫 Thầy Nguyễn Hữu Trung</span>
+      <span>🏫 THPT Trần Phú</span>
+      <span>📞 0964848989</span>
+    </div>
+  </header>
+
+  <nav class="quick-nav">
+    <a href="#chuong1">📂 Chương 1</a>
+    <a href="#chuong2">📂 Chương 2</a>
+    <a href="#chuong3">📂 Chương 3</a>
+    <a href="#de-thi">📝 3 Đề ôn tập</a>
+  </nav>
+
+  <!-- CHƯƠNG 1 -->
+  <h2 class="section-title" id="chuong1">
+    📂 CHƯƠNG 1 – MỆNH ĐỀ VÀ TẬP HỢP
+    <span class="chapter-badge">Bài 1 – 2</span>
+  </h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3>📌 Mệnh đề</h3>
+      <p>Lý thuyết mệnh đề, mệnh đề phủ định, mệnh đề kéo theo, mệnh đề tương đương và mệnh đề chứa biến.</p>
+      <a href="https://trungnhvp-cell.github.io/menh-de/" target="_blank" rel="noopener">Xem tài liệu →</a>
+    </div>
+    <div class="card">
+      <h3>📌 Tập hợp chứa tham số</h3>
+      <p>Các dạng toán tìm tham số m để tập hợp thỏa mãn điều kiện cho trước: giao, hợp, hiệu, tập con.</p>
+      <a href="https://trungnhvp-cell.github.io/t-p-h-p-ch-a-tham-s-/" target="_blank" rel="noopener">Xem tài liệu →</a>
+    </div>
+  </div>
+
+  <!-- CHƯƠNG 2 -->
+  <h2 class="section-title" id="chuong2">
+    📂 CHƯƠNG 2 – BẤT PHƯƠNG TRÌNH & HỆ BPT BẬC NHẤT HAI ẨN
+    <span class="chapter-badge">Bài 3 – 4</span>
+  </h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3>📌 Bất phương trình và hệ bất phương trình</h3>
+      <p>Biểu diễn miền nghiệm, hệ bất phương trình bậc nhất hai ẩn, bài toán tối ưu (quy hoạch tuyến tính).</p>
+      <a href="https://trungnhvp-cell.github.io/bat-phuong-trinh-v-h-b-t-ph-ng-tr-nh/" target="_blank" rel="noopener">Xem tài liệu →</a>
+    </div>
+    <div class="card">
+      <h3>📌 Tóm tắt lý thuyết Chương 2</h3>
+      <p>Ôn tập nhanh toàn bộ lý thuyết và dạng bài tập trọng tâm của Chương 2 theo SGK Kết nối tri thức.</p>
+      <a href="https://toankho.com/2026/10/05/on-thi-giua-ky-1-toan-10-ket-noi-tri-thuc/" target="_blank" rel="noopener">Xem tài liệu →</a>
+    </div>
+    <div class="card">
+      <h3>📌 Đề cương ôn tập Chương 2</h3>
+      <p>Đề cương chi tiết bám sát Công văn 7991 của Bộ GD&ĐT về cấu trúc đề thi mới.</p>
+      <a href="https://hoatieu.vn/de-cuong-on-tap-giua-hoc-ki-1-toan-10-ket-noi-tri-thuc-223456" target="_blank" rel="noopener">Xem tài liệu →</a>
+    </div>
+  </div>
+
+  <!-- CHƯƠNG 3 -->
+  <h2 class="section-title" id="chuong3">
+    📂 CHƯƠNG 3 – HỆ THỨC LƯỢNG TRONG TAM GIÁC
+    <span class="chapter-badge">Bài 5 – 6</span>
+  </h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3>📌 Giá trị lượng giác từ 0° đến 180°</h3>
+      <p>Bảng giá trị lượng giác, quan hệ giữa các góc bù nhau, dấu của các giá trị lượng giác.</p>
+      <a href="https://trungnhvp-cell.github.io/gia-tri-luong-giac-0-den-180/" target="_blank" rel="noopener">Xem tài liệu →</a>
+    </div>
+    <div class="card">
+      <h3>📌 Hệ thức lượng trong tam giác</h3>
+      <p>Định lý cosin, định lý sin, công thức tính diện tích tam giác, giải tam giác và ứng dụng thực tế.</p>
+      <a href="https://trungnhvp-cell.github.io/he-thuc-luong-trong-tam-giac-3/" target="_blank" rel="noopener">Xem tài liệu →</a>
+    </div>
+    <div class="card">
+      <h3>📌 Luyện tập tổng hợp Chương 3</h3>
+      <p>Bài tập trắc nghiệm và tự luận tổng hợp về hệ thức lượng và giá trị lượng giác.</p>
+      <a href="https://toankho.com/2026/10/05/on-thi-giua-ky-1-toan-10-ket-noi-tri-thuc/" target="_blank" rel="noopener">Xem tài liệu →</a>
+    </div>
+  </div>
+
+  <!-- ĐỀ ÔN THI -->
+  <h2 class="section-title" id="de-thi" style="margin-top:48px;">
+    📝 BA ĐỀ ÔN THI GIỮA HỌC KỲ 1
+    <span class="chapter-badge">22 câu • 90 phút</span>
+  </h2>
+
+  <div class="exam-tabs">
+    <button class="exam-tab active" data-exam="1">🎯 Đề số 1</button>
+    <button class="exam-tab" data-exam="2">🚀 Đề số 2</button>
+    <button class="exam-tab" data-exam="3">⭐ Đề số 3</button>
+  </div>
+
+  <div class="exam-panel active" id="exam-1">
+    <div class="timer-bar">
+      <div>⏱ Thời gian còn lại: <span class="timer" id="timer-1">90:00</span></div>
+      <div class="btn-group">
+        <button class="btn btn-primary start-btn" data-exam="1">▶ Bắt đầu</button>
+        <button class="btn btn-success submit-btn" data-exam="1" style="display:none;">📤 Nộp bài</button>
+      </div>
+    </div>
+    <div class="exam-content" id="content-1">
+      <p style="color:var(--text-muted);font-style:italic;text-align:center;padding:26px 10px;">
+        Nhấn <strong>"Bắt đầu"</strong> để làm bài. Đồng hồ sẽ đếm ngược 90 phút.
+      </p>
+    </div>
+    <div class="result-banner" id="result-1"></div>
+  </div>
+
+  <div class="exam-panel" id="exam-2">
+    <div class="timer-bar">
+      <div>⏱ Thời gian còn lại: <span class="timer" id="timer-2">90:00</span></div>
+      <div class="btn-group">
+        <button class="btn btn-primary start-btn" data-exam="2">▶ Bắt đầu</button>
+        <button class="btn btn-success submit-btn" data-exam="2" style="display:none;">📤 Nộp bài</button>
+      </div>
+    </div>
+    <div class="exam-content" id="content-2">
+      <p style="color:var(--text-muted);font-style:italic;text-align:center;padding:26px 10px;">
+        Nhấn <strong>"Bắt đầu"</strong> để làm bài. Đồng hồ sẽ đếm ngược 90 phút.
+      </p>
+    </div>
+    <div class="result-banner" id="result-2"></div>
+  </div>
+
+  <div class="exam-panel" id="exam-3">
+    <div class="timer-bar">
+      <div>⏱ Thời gian còn lại: <span class="timer" id="timer-3">90:00</span></div>
+      <div class="btn-group">
+        <button class="btn btn-primary start-btn" data-exam="3">▶ Bắt đầu</button>
+        <button class="btn btn-success submit-btn" data-exam="3" style="display:none;">📤 Nộp bài</button>
+      </div>
+    </div>
+    <div class="exam-content" id="content-3">
+      <p style="color:var(--text-muted);font-style:italic;text-align:center;padding:26px 10px;">
+        Nhấn <strong>"Bắt đầu"</strong> để làm bài. Đồng hồ sẽ đếm ngược 90 phút.
+      </p>
+    </div>
+    <div class="result-banner" id="result-3"></div>
+  </div>
+
+  <footer>
+    <strong>Thầy Nguyễn Hữu Trung</strong> – THPT Trần Phú<br>
+    Điện thoại: <strong>0964848989</strong><br>
+    © 2025 – Trang web ôn tập giữa học kỳ 1 môn Toán 10 (Kết nối tri thức với cuộc sống)
+  </footer>
+</div>
+
+<button class="back-top" id="backTop" aria-label="Về đầu trang">↑</button>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   GHI DANH
+   ========================================================= */
+const registerOverlay=document.getElementById('registerOverlay');
+const inputName=document.getElementById('inputName');
+const inputClass=document.getElementById('inputClass');
+const errName=document.getElementById('errName');
+const errClass=document.getElementById('errClass');
+const btnEnter=document.getElementById('btnEnter');
+const btnEditInfo=document.getElementById('btnEditInfo');
+const studentNameTxt=document.getElementById('studentNameTxt');
+const STORAGE_KEY='toan10_hk1_student_v2';
+let studentInfo={name:'',className:''};
+
+function loadStudent(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(raw){const d=JSON.parse(raw);if(d&&d.name&&d.className){studentInfo=d;return true;}}
+  }catch(e){}
+  return false;
+}
+function saveStudent(name,className){
+  studentInfo={name,className};
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(studentInfo));}catch(e){}
+}
+function updateHeaderBadge(){
+  if(studentInfo.name){
+    studentNameTxt.textContent='👤 '+studentInfo.name+' • Lớp '+studentInfo.className;
+  }else{
+    studentNameTxt.textContent='👤 Học sinh';
+  }
+}
+function hideOverlay(){
+  registerOverlay.classList.add('hidden');
+  document.body.style.overflow='';
+}
+function showOverlayForEdit(){
+  inputName.value=studentInfo.name||'';
+  inputClass.value=studentInfo.className||'';
+  errName.classList.remove('show');errClass.classList.remove('show');
+  inputName.classList.remove('error');inputClass.classList.remove('error');
+  registerOverlay.classList.remove('hidden');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>inputName.focus(),400);
+}
+let toastTimer=null;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
+function handleEnter(){
+  const name=inputName.value.trim().replace(/\s+/g,' ');
+  const className=inputClass.value;
+  let ok=true;
+  if(!name||name.length<2){inputName.classList.add('error');errName.classList.add('show');ok=false;}
+  else{inputName.classList.remove('error');errName.classList.remove('show');}
+  if(!className){inputClass.classList.add('error');errClass.classList.add('show');ok=false;}
+  else{inputClass.classList.remove('error');errClass.classList.remove('show');}
+  if(!ok)return;
+  saveStudent(name,className);
+  updateHeaderBadge();
+  hideOverlay();
+  showToast('✅ Xin chào '+name+' – Lớp '+className+'!');
+}
+btnEnter.addEventListener('click',handleEnter);
+inputName.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();inputClass.focus();}});
+inputClass.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();handleEnter();}});
+inputName.addEventListener('input',()=>{inputName.classList.remove('error');errName.classList.remove('show');});
+inputClass.addEventListener('change',()=>{inputClass.classList.remove('error');errClass.classList.remove('show');});
+btnEditInfo.addEventListener('click',showOverlayForEdit);
+
+(function initRegister(){
+  const hasSaved=loadStudent();
+  updateHeaderBadge();
+  if(hasSaved){
+    registerOverlay.classList.add('hidden');
+  }else{
+    document.body.style.overflow='hidden';
+    setTimeout(()=>inputName.focus(),500);
+  }
+})();
+
+/* =========================================================
+   DỮ LIỆU ĐỀ THI
+   ========================================================= */
+const exams={
+  1:{
+    multipleChoice:[
+      {q:"Trong các câu sau, câu nào là mệnh đề?",opts:["Bạn có khỏe không?","Hãy đóng cửa lại.","2025 là số nguyên tố.","x + 1 > 2"],ans:2},
+      {q:"Cho tập hợp A = {1; 2; 3}. Số tập con của A là:",opts:["3","6","8","9"],ans:2},
+      {q:"Cho tập A = {x ∈ ℕ | x < 5}. Tập A viết dưới dạng liệt kê là:",opts:["{0; 1; 2; 3; 4}","{1; 2; 3; 4}","{0; 1; 2; 3; 4; 5}","{1; 2; 3; 4; 5}"],ans:0},
+      {q:"Mệnh đề phủ định của \"∀x ∈ ℝ, x² ≥ 0\" là:",opts:["∃x ∈ ℝ, x² < 0","∀x ∈ ℝ, x² < 0","∃x ∈ ℝ, x² ≤ 0","∀x ∈ ℝ, x² > 0"],ans:0},
+      {q:"Cho hai tập A = {1; 2; 3} và B = {2; 3; 4}. Tập A ∩ B là:",opts:["{1; 4}","{2; 3}","{1; 2; 3; 4}","∅"],ans:1},
+      {q:"Bất phương trình nào sau đây là bậc nhất hai ẩn?",opts:["x + y > 1","x² + y > 1","x + y = 1","xy > 1"],ans:0},
+      {q:"Miền nghiệm của bất phương trình x + y ≤ 2 là nửa mặt phẳng:",opts:["Chứa gốc tọa độ O","Không chứa O","Chứa điểm (2; 2)","Chứa điểm (0; 3)"],ans:0},
+      {q:"Cho tam giác ABC có a = 5, b = 7, C = 60°. Độ dài cạnh c là:",opts:["√39","√109","√29","√59"],ans:0},
+      {q:"Trong tam giác ABC, định lý cosin được viết là:",opts:["a² = b² + c² – 2bc.cosA","a² = b² + c² + 2bc.cosA","a² = b² + c² – bc.cosA","a² = b² + c² + bc.cosA"],ans:0},
+      {q:"Giá trị sin 150° bằng:",opts:["1/2","–1/2","√3/2","–√3/2"],ans:0},
+      {q:"Cho góc α thỏa mãn 0° ≤ α ≤ 180°. Khẳng định nào đúng?",opts:["sin α = sin(180° – α)","cos α = cos(180° – α)","tan α = tan(180° – α)","cot α = cot(180° – α)"],ans:0},
+      {q:"Diện tích tam giác ABC có a = 6, b = 8, C = 30° là:",opts:["12","24","6","48"],ans:0}
+    ],
+    trueFalse:[
+      {q:"Cho mệnh đề P: \"Số 15 chia hết cho 3\". Xét tính đúng sai của các mệnh đề sau:",
+       subs:[
+         {text:"P là mệnh đề đúng",ans:true},
+         {text:"Phủ định của P là \"Số 15 không chia hết cho 3\"",ans:true},
+         {text:"P ⇒ (2 + 2 = 4) là mệnh đề sai",ans:false},
+         {text:"P ⇔ (2 + 2 = 4) là mệnh đề đúng",ans:true}
+       ]},
+      {q:"Cho tam giác ABC có AB = 3, AC = 4, BC = 5. Xét tính đúng sai:",
+       subs:[
+         {text:"Tam giác ABC vuông tại A",ans:true},
+         {text:"sin B = 3/5",ans:false},
+         {text:"Diện tích tam giác ABC bằng 6",ans:true},
+         {text:"Bán kính đường tròn ngoại tiếp R = 2,5",ans:true}
+       ]}
+    ],
+    shortAnswer:[
+      {q:"Cho tập A = {x ∈ ℤ | –2 ≤ x < 3}. Số phần tử của A là bao nhiêu?",ans:"5"},
+      {q:"Giá trị của cos 120° là bao nhiêu? (nhập phân số hoặc số thập phân)",ans:"-1/2"},
+      {q:"Cho tam giác ABC có a = 3, b = 4, C = 90°. Độ dài cạnh c bằng bao nhiêu?",ans:"5"},
+      {q:"Miền nghiệm của bất phương trình 2x + y > 4 có chứa điểm O(0;0) không? (nhập Có hoặc Không)",ans:"Không"}
+    ],
+    essay:[
+      {q:"Cho hai tập hợp A = {x ∈ ℕ | x là ước của 12} và B = {x ∈ ℕ | x là ước của 18}. Xác định A ∩ B, A ∪ B, A \\ B."},
+      {q:"Một xưởng sản xuất hai loại sản phẩm A và B. Mỗi sản phẩm A lãi 3 triệu đồng, mỗi sản phẩm B lãi 5 triệu đồng. Để sản xuất một sản phẩm A cần 2 giờ máy và 1 giờ nhân công; sản phẩm B cần 3 giờ máy và 2 giờ nhân công. Xưởng có tối đa 120 giờ máy và 70 giờ nhân công. Hỏi cần sản xuất bao nhiêu sản phẩm mỗi loại để lãi tối đa?"},
+      {q:"Để đo chiều cao của một tháp, người ta đứng tại hai điểm A và B cách nhau 50m trên mặt đất thẳng hàng với chân tháp C. Góc nâng từ A đến đỉnh tháp là 30°, từ B là 45°. Tính chiều cao của tháp (làm tròn đến hàng phần mười)."}
+    ]
+  },
+  2:{
+    multipleChoice:[
+      {q:"Trong các mệnh đề sau, mệnh đề nào đúng?",opts:["∀x ∈ ℝ, x² > 0","∃x ∈ ℚ, x² = 2","∀x ∈ ℤ, x² ≥ x","∃x ∈ ℝ, x² + 1 = 0"],ans:2},
+      {q:"Cho tập A = {a; b; c; d}. Số tập con có 2 phần tử của A là:",opts:["4","6","8","12"],ans:1},
+      {q:"Cho A = (–∞; 3] và B = (1; 5). Tập A ∩ B là:",opts:["(1; 3]","(–∞; 5)","(1; 5)","[3; 5)"],ans:0},
+      {q:"Cho tập A = {1; 2; 3; 4}. Số tập con của A là:",opts:["8","12","16","4"],ans:2},
+      {q:"Bất phương trình bậc nhất hai ẩn là:",opts:["2x + 3y – 1 > 0","x² + y < 1","x + y = 2","xy + x > 1"],ans:0},
+      {q:"Điểm nào sau đây thuộc miền nghiệm của bất phương trình x + 2y > 3?",opts:["(0; 0)","(1; 1)","(0; 1)","(1; 0)"],ans:1},
+      {q:"Cho tam giác ABC có b = 8, c = 6, A = 60°. Độ dài cạnh a là:",opts:["2√13","√52","2√7","√28"],ans:0},
+      {q:"Trong tam giác ABC, công thức tính diện tích nào đúng?",opts:["S = 1/2 ab sin C","S = ab sin C","S = 1/2 abc","S = abc/4R"],ans:0},
+      {q:"Giá trị cos 135° bằng:",opts:["√2/2","–√2/2","1/2","–1/2"],ans:1},
+      {q:"Cho α = 120°. Khẳng định nào đúng?",opts:["sin α = √3/2","cos α = 1/2","tan α = √3","cot α = –√3/3"],ans:0},
+      {q:"Tam giác ABC có a = 7, b = 8, c = 5. Số đo góc A (làm tròn) là:",opts:["≈ 60°","≈ 45°","≈ 30°","≈ 90°"],ans:0},
+      {q:"Cho hình bình hành ABCD có AB = 4, AD = 3, góc BAD = 60°. Độ dài đường chéo AC là:",opts:["√37","√13","5","7"],ans:0}
+    ],
+    trueFalse:[
+      {q:"Cho tập hợp A = {x ∈ ℝ | x² – 3x + 2 = 0}. Xét tính đúng sai:",
+       subs:[
+         {text:"A = {1; 2}",ans:true},
+         {text:"1 ∈ A",ans:true},
+         {text:"3 ∈ A",ans:false},
+         {text:"A có 2 phần tử",ans:true}
+       ]},
+      {q:"Cho tam giác ABC có a = 5, b = 6, c = 7. Xét tính đúng sai:",
+       subs:[
+         {text:"Tam giác ABC nhọn",ans:true},
+         {text:"cos A = 1/5",ans:false},
+         {text:"Diện tích tam giác ≈ 14,7",ans:true},
+         {text:"Bán kính đường tròn ngoại tiếp R ≈ 3,57",ans:true}
+       ]}
+    ],
+    shortAnswer:[
+      {q:"Cho tập A = {x ∈ ℕ | x là ước của 10}. Số phần tử của A là bao nhiêu?",ans:"4"},
+      {q:"Giá trị của sin 135° là bao nhiêu?",ans:"√2/2"},
+      {q:"Cho tam giác ABC có a = 6, b = 8, C = 90°. Độ dài cạnh c bằng bao nhiêu?",ans:"10"},
+      {q:"Miền nghiệm của bất phương trình x – y < 1 có chứa điểm O(0;0) không? (Có/Không)",ans:"Có"}
+    ],
+    essay:[
+      {q:"Cho tập A = {x ∈ ℝ | –2 < x ≤ 5} và B = {x ∈ ℝ | x ≥ 3}. Tìm A ∩ B, A ∪ B, A \\ B và biểu diễn trên trục số."},
+      {q:"Một gia đình cần ít nhất 900 đơn vị protein và 400 đơn vị lipit trong thức ăn mỗi ngày. Mỗi kg thịt bò chứa 800 đơn vị protein và 200 đơn vị lipit. Mỗi kg thịt lợn chứa 600 đơn vị protein và 400 đơn vị lipit. Giá mỗi kg thịt bò là 200.000 đồng, mỗi kg thịt lợn là 100.000 đồng. Hỏi cần mua bao nhiêu kg mỗi loại để chi phí ít nhất?"},
+      {q:"Một người quan sát một cây cầu từ hai vị trí A và B cách nhau 80m. Góc nâng từ A đến đỉnh cầu là 25°, từ B là 40°. Tính chiều cao của cầu (làm tròn đến hàng phần mười)."}
+    ]
+  },
+  3:{
+    multipleChoice:[
+      {q:"Mệnh đề \"∀x ∈ ℝ, x² + 1 > 0\" là:",opts:["Mệnh đề đúng","Mệnh đề sai","Không xác định","Vừa đúng vừa sai"],ans:0},
+      {q:"Cho tập A = {0; 1; 2; 3}. Số tập con có 3 phần tử của A là:",opts:["4","6","8","3"],ans:0},
+      {q:"Cho A = [1; 5] và B = (3; 7). Tập A ∩ B là:",opts:["(3; 5]","[1; 7)","(3; 5)","[1; 3]"],ans:0},
+      {q:"Cho tập A = {2; 4; 6; 8}. Số tập con của A là:",opts:["8","12","16","4"],ans:2},
+      {q:"Bất phương trình nào là bậc nhất hai ẩn?",opts:["3x – 2y ≥ 1","x² – y > 1","x + y = 3","xy – x < 0"],ans:0},
+      {q:"Điểm nào thuộc miền nghiệm của bất phương trình 2x – y < 3?",opts:["(1; 1)","(2; 2)","(0; 0)","(1; 0)"],ans:2},
+      {q:"Cho tam giác ABC có a = 4, b = 5, C = 60°. Độ dài cạnh c là:",opts:["√21","√41","√29","√61"],ans:0},
+      {q:"Công thức tính diện tích tam giác theo định lý Heron là:",opts:["S = √(p(p–a)(p–b)(p–c))","S = p(p–a)(p–b)(p–c)","S = (a+b+c)/2","S = abc/4R"],ans:0},
+      {q:"Giá trị tan 150° bằng:",opts:["–√3/3","√3/3","–√3","√3"],ans:0},
+      {q:"Cho α = 45°. Giá trị sin α + cos α bằng:",opts:["√2","1","0","2"],ans:0},
+      {q:"Tam giác ABC có a = 10, b = 12, c = 14. Diện tích tam giác là:",opts:["≈ 58,8","≈ 60","≈ 55","≈ 62"],ans:0},
+      {q:"Cho tam giác đều ABC cạnh a. Bán kính đường tròn ngoại tiếp R là:",opts:["a√3/3","a√3/2","a/2","a√3"],ans:0}
+    ],
+    trueFalse:[
+      {q:"Cho mệnh đề Q: \"Số 2025 chia hết cho 5\". Xét tính đúng sai:",
+       subs:[
+         {text:"Q là mệnh đề đúng",ans:true},
+         {text:"Phủ định của Q là \"2025 không chia hết cho 5\"",ans:true},
+         {text:"Q ⇒ (2 + 3 = 5) là mệnh đề sai",ans:false},
+         {text:"Q ⇔ (2 + 3 = 5) là mệnh đề đúng",ans:true}
+       ]},
+      {q:"Cho tam giác ABC có AB = 6, AC = 8, BC = 10. Xét tính đúng sai:",
+       subs:[
+         {text:"Tam giác ABC vuông tại A",ans:true},
+         {text:"sin B = 3/5",ans:false},
+         {text:"Diện tích tam giác bằng 24",ans:true},
+         {text:"Bán kính đường tròn ngoại tiếp R = 5",ans:true}
+       ]}
+    ],
+    shortAnswer:[
+      {q:"Cho tập A = {x ∈ ℕ | x là ước của 15}. Số phần tử của A là bao nhiêu?",ans:"4"},
+      {q:"Giá trị của cos 150° là bao nhiêu?",ans:"-√3/2"},
+      {q:"Cho tam giác ABC có a = 5, b = 12, C = 90°. Độ dài cạnh c bằng bao nhiêu?",ans:"13"},
+      {q:"Miền nghiệm của bất phương trình x + y > 2 có chứa điểm O(0;0) không? (Có/Không)",ans:"Không"}
+    ],
+    essay:[
+      {q:"Cho tập A = {x ∈ ℝ | 1 ≤ x ≤ 4} và B = {x ∈ ℝ | x > 2}. Tìm A ∩ B, A ∪ B, A \\ B và biểu diễn trên trục số."},
+      {q:"Một công ty sản xuất hai loại sản phẩm X và Y. Mỗi sản phẩm X lãi 4 triệu, mỗi sản phẩm Y lãi 6 triệu. Sản phẩm X cần 2 giờ máy và 1 giờ nhân công; sản phẩm Y cần 3 giờ máy và 2 giờ nhân công. Công ty có tối đa 150 giờ máy và 80 giờ nhân công. Hỏi cần sản xuất bao nhiêu sản phẩm mỗi loại để lãi tối đa?"},
+      {q:"Để đo chiều cao của một ngọn núi, người ta đứng tại hai điểm A và B cách nhau 120m trên mặt đất. Góc nâng từ A đến đỉnh núi là 20°, từ B là 35°. Tính chiều cao của núi (làm tròn đến hàng phần mười)."}
+    ]
+  }
+};
+
+/* =========================================================
+   TAB
+   ========================================================= */
+document.querySelectorAll('.exam-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.exam-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.exam-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('exam-'+tab.dataset.exam).classList.add('active');
+  });
+});
+
+/* =========================================================
+   ĐỒNG HỒ
+   ========================================================= */
+const timeLeft={1:5400,2:5400,3:5400};
+const timerIntervals={};
+function startTimer(examId){
+  if(timerIntervals[examId])return;
+  const timerEl=document.getElementById('timer-'+examId);
+  timerIntervals[examId]=setInterval(()=>{
+    if(timeLeft[examId]<=0){
+      clearInterval(timerIntervals[examId]);
+      timerIntervals[examId]=null;
+      timerEl.textContent="00:00";
+      timerEl.classList.add('warning');
+      autoSubmit(examId);
+      return;
+    }
+    timeLeft[examId]--;
+    const m=Math.floor(timeLeft[examId]/60).toString().padStart(2,'0');
+    const s=(timeLeft[examId]%60).toString().padStart(2,'0');
+    timerEl.textContent=m+":"+s;
+    if(timeLeft[examId]<300)timerEl.classList.add('warning');
+  },1000);
+}
+
+/* =========================================================
+   RENDER ĐỀ
+   ========================================================= */
+function renderExam(examId){
+  const data=exams[examId];
+  let html='';
+  html+='<div class="part-label">PHẦN I. TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN (3,0 điểm) – 12 câu</div>';
+  data.multipleChoice.forEach((q,i)=>{
+    html+='<div class="question" data-q="mc-'+i+'">';
+    html+='<div class="q-text">Câu '+(i+1)+'. '+q.q+'</div>';
+    html+='<div class="options">';
+    q.opts.forEach((opt,j)=>{
+      html+='<label><input type="radio" name="mc-'+examId+'-'+i+'" value="'+j+'"> <span>'+String.fromCharCode(65+j)+'. '+opt+'</span></label>';
+    });
+    html+='</div></div>';
+  });
+  html+='<div class="part-label">PHẦN II. TRẮC NGHIỆM ĐÚNG – SAI (2,0 điểm) – 2 câu</div>';
+  data.trueFalse.forEach((q,i)=>{
+    html+='<div class="question" data-q="tf-'+i+'">';
+    html+='<div class="q-text">Câu '+(i+13)+'. '+q.q+'</div>';
+    q.subs.forEach((sub,j)=>{
+      html+='<div class="tf-row"><span>'+String.fromCharCode(97+j)+') '+sub.text+'</span>';
+      html+='<label><input type="radio" name="tf-'+examId+'-'+i+'-'+j+'" value="true"> Đúng</label>';
+      html+='<label><input type="radio" name="tf-'+examId+'-'+i+'-'+j+'" value="false"> Sai</label></div>';
+    });
+    html+='</div>';
+  });
+  html+='<div class="part-label">PHẦN III. TRẮC NGHIỆM TRẢ LỜI NGẮN (2,0 điểm) – 4 câu</div>';
+  data.shortAnswer.forEach((q,i)=>{
+    html+='<div class="question short-answer" data-q="sa-'+i+'">';
+    html+='<div class="q-text">Câu '+(i+15)+'. '+q.q+'</div>';
+    html+='<input type="text" placeholder="Nhập đáp án..." id="sa-'+examId+'-'+i+'" autocomplete="off">';
+    html+='</div>';
+  });
+  html+='<div class="part-label">PHẦN IV. TỰ LUẬN (3,0 điểm) – 3 câu</div>';
+  data.essay.forEach((q,i)=>{
+    html+='<div class="essay-question" data-q="es-'+i+'">';
+    html+='<div class="q-text">Câu '+(i+19)+'. '+q.q+'</div>';
+    html+='<textarea rows="4" placeholder="Trình bày lời giải..."></textarea>';
+    html+='</div>';
+  });
+  document.getElementById('content-'+examId).innerHTML=html;
+}
+
+/* =========================================================
+   CONFETTI
+   ========================================================= */
+function fireConfetti(){
+  const colors=['#ec4899','#8b5cf6','#06b6d4','#10b981','#f59e0b','#f43f5e'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    p.style.left=Math.random()*100+'vw';
+    p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    p.style.animationDelay=(Math.random()*0.5)+'s';
+    p.style.animationDuration=(2.5+Math.random()*1.5)+'s';
+    p.style.transform='rotate('+Math.random()*360+'deg)';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),4200);
+  }
+}
+
+/* =========================================================
+   CHẤM ĐIỂM
+   ========================================================= */
+function submitExam(examId){
+  const data=exams[examId];
+  let mcCorrect=0,tfCorrect=0,saCorrect=0;
+  data.multipleChoice.forEach((q,i)=>{
+    const selected=document.querySelector('input[name="mc-'+examId+'-'+i+'"]:checked');
+    const qDiv=document.querySelector('#content-'+examId+' [data-q="mc-'+i+'"]');
+    if(selected&&parseInt(selected.value)===q.ans){
+      mcCorrect++;
+      qDiv.classList.add('correct-highlight');
+      qDiv.classList.remove('wrong-highlight');
+    }else{
+      qDiv.classList.add('wrong-highlight');
+      qDiv.classList.remove('correct-highlight');
+    }
+  });
+  data.trueFalse.forEach((q,i)=>{
+    q.subs.forEach((sub,j)=>{
+      const selected=document.querySelector('input[name="tf-'+examId+'-'+i+'-'+j+'"]:checked');
+      if(selected&&(selected.value==='true')===sub.ans)tfCorrect++;
+    });
+  });
+  data.shortAnswer.forEach((q,i)=>{
+    const input=document.getElementById('sa-'+examId+'-'+i);
+    const val=input.value.trim().toLowerCase().replace(/\s/g,'');
+    const correctVal=q.ans.toLowerCase().replace(/\s/g,'');
+    if(val===correctVal){saCorrect++;input.style.borderColor='#10b981';input.style.boxShadow='0 0 22px rgba(16,185,129,.5)';}
+    else{input.style.borderColor='#f43f5e';input.style.boxShadow='0 0 22px rgba(244,63,94,.45)';}
+  });
+  const scoreMC=mcCorrect*0.25;
+  const scoreTF=(tfCorrect/8)*2.0;
+  const scoreSA=saCorrect*0.5;
+  const totalScore=scoreMC+scoreTF+scoreSA;
+  const totalCorrect=mcCorrect+tfCorrect+saCorrect;
+  const maxCorrect=12+8+4;
+  const resultEl=document.getElementById('result-'+examId);
+  resultEl.classList.add('show');
+  resultEl.classList.remove('good','average','poor');
+  let studentLine='';
+  if(studentInfo.name){
+    studentLine='<span class="student-line">👤 <strong>'+studentInfo.name+'</strong> • Lớp <strong>'+studentInfo.className+'</strong></span>';
+  }
+  let message=studentLine;
+  message+='📊 <strong>KẾT QUẢ: '+totalScore.toFixed(2)+' / 7.0 điểm</strong> (TN + Đ/S + trả lời ngắn)<br>';
+  message+='✅ Số ý đúng: '+totalCorrect+'/'+maxCorrect+'<br>';
+  message+='📝 Phần tự luận (3 điểm) sẽ được giáo viên chấm thủ công.<br>';
+  message+='🔹 Trắc nghiệm: '+mcCorrect+'/12 • Đúng/Sai: '+tfCorrect+'/8 ý • Trả lời ngắn: '+saCorrect+'/4';
+  if(totalScore>=5.6){resultEl.classList.add('good');fireConfetti();}
+  else if(totalScore>=3.5)resultEl.classList.add('average');
+  else resultEl.classList.add('poor');
+  resultEl.innerHTML=message;
+  if(timerIntervals[examId]){clearInterval(timerIntervals[examId]);timerIntervals[examId]=null;}
+  const submitBtn=document.querySelector('.submit-btn[data-exam="'+examId+'"]');
+  submitBtn.textContent='🔄 Làm lại';
+  submitBtn.classList.remove('btn-success');
+  submitBtn.classList.add('btn-outline');
+  submitBtn.onclick=()=>resetExam(examId);
+  resultEl.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function autoSubmit(examId){
+  alert('⏰ Hết giờ! Bài thi sẽ được nộp tự động.');
+  submitExam(examId);
+}
+function resetExam(examId){
+  timeLeft[examId]=5400;
+  const timerEl=document.getElementById('timer-'+examId);
+  timerEl.textContent='90:00';
+  timerEl.classList.remove('warning');
+  document.getElementById('content-'+examId).innerHTML=
+    '<p style="color:var(--text-muted);font-style:italic;text-align:center;padding:26px 10px;">'+
+    'Nhấn <strong>"Bắt đầu"</strong> để làm bài. Đồng hồ sẽ đếm ngược 90 phút.</p>';
+  const resultEl=document.getElementById('result-'+examId);
+  resultEl.classList.remove('show','good','average','poor');
+  resultEl.innerHTML='';
+  const startBtn=document.querySelector('.start-btn[data-exam="'+examId+'"]');
+  const submitBtn=document.querySelector('.submit-btn[data-exam="'+examId+'"]');
+  startBtn.style.display='inline-block';
+  submitBtn.style.display='none';
+  submitBtn.textContent='📤 Nộp bài';
+  submitBtn.classList.add('btn-success');
+  submitBtn.classList.remove('btn-outline');
+  submitBtn.onclick=()=>{if(confirm('Bạn có chắc muốn nộp bài?'))submitExam(examId);};
+  if(timerIntervals[examId]){clearInterval(timerIntervals[examId]);timerIntervals[examId]=null;}
+}
+
+document.querySelectorAll('.start-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    const examId=this.dataset.exam;
+    renderExam(examId);
+    this.style.display='none';
+    document.querySelector('.submit-btn[data-exam="'+examId+'"]').style.display='inline-block';
+    startTimer(examId);
+  });
+});
+document.querySelectorAll('.submit-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    const examId=this.dataset.exam;
+    if(confirm('Bạn có chắc muốn nộp bài?'))submitExam(examId);
+  });
+});
+
+/* =========================================================
+   NÚT VỀ ĐẦU TRANG
+   ========================================================= */
+const backTop=document.getElementById('backTop');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>400)backTop.classList.add('show');
+  else backTop.classList.remove('show');
+});
+backTop.addEventListener('click',()=>{
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+</script>
+</body>
+</html>
